@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Test.DomainModel.Application>
+
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Список заявок</h2>
+
+@using (Html.BeginForm("List", "Application", FormMethod.Post))
+{
+    <button type="submit" value="Сохранить" class="btn btn-default" >Сохранить</button>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.Label("Тема")
+            </th>
+            <th>
+                @Html.Label("Сообщение")
+            </th>
+            <th>
+                @Html.Label("Кем/когда создана")
+            </th>
+            <th>
+                @Html.Label("Имя файла")
+            </th>
+            <th>
+                @Html.Label("Обработана")
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.HiddenFor(modelItem => item.Id)
+                    @Html.DisplayFor(modelItem => item.Theme)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Body)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Username)<br />
+                    @Html.DisplayFor(modelItem => item.Created)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FileName)
+                </td>
+                <td>
+
+                    @if (item.IsAnswered)
+                    {
+                        @Html.DisplayFor(modelItem => item.IsAnswered)
+                    }
+                    else
+                    {
+                        <input type="checkbox" name="AnswerIds" value="@item.Id" class="custom-checkbox chkCheckBoxId" />
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+}
